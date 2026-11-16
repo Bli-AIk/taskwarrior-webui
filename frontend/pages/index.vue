@@ -133,7 +133,7 @@ export default defineComponent({
 		const projectOptions = computed(() => [
 				{ text: '（全部项目）', value: '(All Projects)' },
 				{ text: '（无项目）', value: '(No Project)' },
-				...projects.value.map(p => ({ text: p, value: p }))
+				...projects.value.map((p: string) => ({ text: p, value: p }))
 			]);
 
 		const selectedAssignee = ref((route.value.query.assignee as string) || '(All Assignees)');
@@ -141,7 +141,7 @@ export default defineComponent({
 		const assigneeOptions = computed(() => [
 				{ text: '（全部负责人）', value: '(All Assignees)' },
 				{ text: '（未指派）', value: '(Unassigned)' },
-				...assignees.value.map(a => ({ text: a, value: a }))
+				...assignees.value.map((a: string) => ({ text: a, value: a }))
 			]);
 
 		const searchQuery = ref((route.value.query.search as string) || '');

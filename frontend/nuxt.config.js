@@ -106,8 +106,33 @@ export default {
 		customVariables: ['~/assets/variables.scss'],
 		treeShake: true, // to make customVariables work in dev
 		lang: {
-			// 2026-11-16 汉化：Vuetify 内置文案（每页行数 / of / 取消 / 确定 等）
-			current: 'zh-Hans'
+			// 2026-11-16 汉化：Vuetify 内置文案（每页行数 / 分页 / 排序提示 等）。
+			// treeShake 会 tree-shake 掉 vuetify 自带的 locale 文件，所以这里显式给一份。
+			current: 'zh-Hans',
+			locales: {
+				'zh-Hans': {
+					carousel: { prev: '上一张', next: '下一张' },
+					calendar: { moreEvents: '还有 {0} 项' },
+					dataIterator: {
+						noResultsText: '没有匹配的结果',
+						loadingText: '加载中…',
+						noResultsAll: '没有匹配的结果',
+						rowsPerPageText: '每页行数：',
+						rowsPerPageAll: '全部',
+						pageText: '{0}-{1} 共 {2}',
+						nextPage: '下一页',
+						prevPage: '上一页'
+					},
+					dataTable: {
+						rowsPerPageText: '每页行数：',
+						ariaLabel: { sortAscending: '升序排列', sortDescending: '降序排列' }
+					},
+					noDataText: '暂无数据',
+					close: '关闭',
+					cancel: '取消',
+					ok: '确定'
+				}
+			}
 		}
 	},
 	/*
