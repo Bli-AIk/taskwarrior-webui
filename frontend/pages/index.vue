@@ -6,9 +6,10 @@
 			<v-select
 				class="mb-3 ml-4"
 				:items="projectOptions"
+				:menu-props="{ maxHeight: 480 }"
 				label="项目"
 				v-model="selectedProject"
-				style="max-width: 180px"
+				style="max-width: 260px"
 				hide-details
 				dense
 			/>
@@ -130,11 +131,32 @@ export default defineComponent({
 
 		const selectedProject = ref((route.value.query.project as string) || '(All Projects)');
 		const projects = computed(() => store.getters.projects);
-		const projectOptions = computed(() => [
+		const projectPrefixes = computed(() => {
+			const set = new Set<string>();
+			for (const p of projects.value as string[]) {
+				const i = p.indexOf('.');
+				if (i > 0) set.add(p.slice(0, i + 1));
+			}
+			return [...set].sort();
+		});
+
+		// 项目下拉：先给「全部/无项目」＋ 每个一级前缀的快捷筛选（aik.* / a8fq.* …），
+		// 再按前缀分组列出具体项目。前缀项的 value 是 #p:<prefix>，由 filteredTasks 识别。
+		const projectOptions = computed(() => {
+			const opts: any[] = [
+				{ header: '快速筛选' },
 				{ text: '（全部项目）', value: '(All Projects)' },
-				{ text: '（无项目）', value: '(No Project)' },
-				...projects.value.map((p: string) => ({ text: p, value: p }))
-			]);
+				{ text: '（无项目）', value: '(No Project)' }
+			];
+			for (const pfx of projectPrefixes.value) {
+				opts.push({ text: `${pfx}* 全部`, value: `#p:${pfx}` });
+			}
+			opts.push({ divider: true }, { header: '按项目' });
+			for (const p of [...(projects.value as string[])].sort()) {
+				opts.push({ text: p, value: p });
+			}
+			return opts;
+		});
 
 		const selectedAssignee = ref((route.value.query.assignee as string) || '(All Assignees)');
 		const assignees = computed(() => store.getters.assignees);
@@ -209,7 +231,10 @@ export default defineComponent({
 			let result = store.state.tasks || [];
 
 			// Project filter
-			if (selectedProject.value === '(No Project)') {
+			if (selectedProject.value && selectedProject.value.startsWith('#p:')) {
+				const pfx = selectedProject.value.slice(3);
+				result = result.filter(t => (t.project || '').startsWith(pfx));
+			} else if (selectedProject.value === '(No Project)') {
 				result = result.filter(t => !t.project);
 			} else if (selectedProject.value && selectedProject.value !== '(All Projects)') {
 				result = result.filter(t => t.project === selectedProject.value);
