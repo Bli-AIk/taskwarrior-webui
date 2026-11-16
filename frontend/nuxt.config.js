@@ -19,7 +19,7 @@ export default {
   */
 	head: {
 		titleTemplate: '%s',
-		title: 'Taskwarrior Webui',
+		title: 'Taskwarrior 看板',
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -104,7 +104,11 @@ export default {
 	vuetify: {
 		defaultAssets: false,
 		customVariables: ['~/assets/variables.scss'],
-		treeShake: true // to make customVariables work in dev
+		treeShake: true, // to make customVariables work in dev
+		lang: {
+			// 2026-11-16 汉化：Vuetify 内置文案（每页行数 / of / 取消 / 确定 等）
+			current: 'zh-Hans'
+		}
 	},
 	/*
   ** Build configuration

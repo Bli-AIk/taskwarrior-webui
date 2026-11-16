@@ -3,11 +3,11 @@
 		<v-card>
 			<v-card-title class="headline d-flex align-center">
 				<v-icon left color="primary">mdi-text-search</v-icon>
-				Custom Queries
+				自定义查询
 			</v-card-title>
 			<v-card-text>
 				<p class="body-2 text--secondary">
-					Select a custom query to filter your task list or press the assigned mnemonic shortcut key.
+					选择一个自定义查询来过滤任务列表，或按它对应的助记快捷键。
 				</p>
 				<v-list dense class="elevation-1 rounded">
 					<v-list-item
@@ -29,14 +29,14 @@
 					</v-list-item>
 					<v-list-item v-if="Object.keys(customQueries).length === 0">
 						<v-list-item-content>
-							<v-list-item-subtitle class="text-center italic">No custom queries configured in backend environment.</v-list-item-subtitle>
+							<v-list-item-subtitle class="text-center italic">后端没有配置自定义查询。</v-list-item-subtitle>
 						</v-list-item-content>
 					</v-list-item>
 				</v-list>
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer />
-				<v-btn text @click="closeDialog" width="80px">Close</v-btn>
+				<v-btn text @click="closeDialog" width="80px">关闭</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>

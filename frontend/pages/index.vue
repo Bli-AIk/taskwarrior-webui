@@ -1,12 +1,12 @@
 <template>
 	<div class="px-md-6 px-lg-12">
 		<v-row class="px-4 pt-4 align-center">
-			<div class="headline d-flex align-center">{{ mode }}</div>
+			<div class="headline d-flex align-center">{{ mode === 'Kanban' ? '看板' : '列表' }}</div>
 			
 			<v-select
 				class="mb-3 ml-4"
 				:items="projectOptions"
-				label="Project"
+				label="项目"
 				v-model="selectedProject"
 				style="max-width: 180px"
 				hide-details
@@ -16,7 +16,7 @@
 			<v-select
 				class="mb-3 ml-3"
 				:items="assigneeOptions"
-				label="Assignee"
+				label="负责人"
 				v-model="selectedAssignee"
 				style="max-width: 180px"
 				hide-details
@@ -25,7 +25,7 @@
 
 			<v-text-field
 				class="mb-3 ml-3"
-				label="Search tasks..."
+				label="搜索任务…"
 				v-model="searchQuery"
 				prepend-inner-icon="mdi-magnify"
 				clearable
@@ -38,7 +38,7 @@
 			<v-select
 				class="mb-3 ml-3"
 				:items="allModes"
-				label="Display Mode"
+				label="显示模式"
 				v-model="mode"
 				style="max-width: 140px"
 				hide-details
@@ -123,15 +123,26 @@ export default defineComponent({
 		});
 
 		const mode = ref((route.value.query.mode as string) || 'Tasks');
-		const allModes = ['Tasks', 'Kanban'];
+		const allModes = [
+				{ text: '列表', value: 'Tasks' },
+				{ text: '看板', value: 'Kanban' }
+			];
 
 		const selectedProject = ref((route.value.query.project as string) || '(All Projects)');
 		const projects = computed(() => store.getters.projects);
-		const projectOptions = computed(() => ['(All Projects)', '(No Project)', ...projects.value]);
+		const projectOptions = computed(() => [
+				{ text: '（全部项目）', value: '(All Projects)' },
+				{ text: '（无项目）', value: '(No Project)' },
+				...projects.value.map(p => ({ text: p, value: p }))
+			]);
 
 		const selectedAssignee = ref((route.value.query.assignee as string) || '(All Assignees)');
 		const assignees = computed(() => store.getters.assignees);
-		const assigneeOptions = computed(() => ['(All Assignees)', '(Unassigned)', ...assignees.value]);
+		const assigneeOptions = computed(() => [
+				{ text: '（全部负责人）', value: '(All Assignees)' },
+				{ text: '（未指派）', value: '(Unassigned)' },
+				...assignees.value.map(a => ({ text: a, value: a }))
+			]);
 
 		const searchQuery = ref((route.value.query.search as string) || '');
 

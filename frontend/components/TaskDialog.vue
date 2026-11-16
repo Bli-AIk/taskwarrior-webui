@@ -7,7 +7,7 @@
 	>
 		<v-card>
 			<v-card-title class="d-flex align-center">
-				<span>{{ task ? 'Edit Task' : 'New Task' }}</span>
+				<span>{{ task ? '编辑任务' : '新建任务' }}</span>
 				<v-spacer />
 				<template v-if="task">
 					<v-chip small color="primary" class="mr-2 font-weight-bold" outlined>
@@ -24,7 +24,7 @@
 					<v-text-field
 						autofocus
 						v-model="formData.description"
-						label="Description*"
+						label="描述*"
 						:rules="requiredRules"
 						required
 					/>
@@ -32,13 +32,13 @@
 						v-model="formData.project"
 						:items="projects"
 						hide-selected
-						label="Project"
+						label="项目"
 					/>
 					<v-combobox
 						v-model="formData.assignee"
 						:items="assignees"
 						hide-selected
-						label="Assignee"
+						label="负责人"
 					/>
 					<v-combobox
 						v-model="formData.depends"
@@ -46,8 +46,8 @@
 						hide-selected
 						small-chips
 						multiple
-						label="Dependencies (Blocked by)"
-						hint="Select tasks this task depends on"
+						label="依赖（被阻塞）"
+						hint="选择本任务所依赖的任务"
 					/>
 					<v-combobox
 						v-model="formData.dependents"
@@ -55,8 +55,8 @@
 						hide-selected
 						small-chips
 						multiple
-						label="Dependents (Blocking)"
-						hint="Select tasks that depend on this task"
+						label="被依赖（阻塞）"
+						hint="选择依赖本任务的任务"
 					/>
 					<v-combobox
 						v-model="formData.tags"
@@ -64,37 +64,37 @@
 						hide-selected
 						small-chips
 						multiple
-						label="Tags"
-						hint="Press tab or enter to add new tags"
+						label="标签"
+						hint="按 Tab 或回车添加新标签"
 					/>
 					<v-row class="px-3">
 						<v-text-field
 							class="mr-3"
 							v-model="formData.due"
-							:label="recur ? 'Due*' : 'Due'"
+							:label="recur ? '截止*' : '截止'"
 							:rules="recur ? requiredRules : []"
 							:required="recur"
 						/>
 						<v-text-field
 							v-model="formData.until"
-							label="Until"
+							label="直至"
 						/>
 					</v-row>
 					<v-row class="px-3">
 						<v-text-field
 							class="mr-3"
 							v-model="formData.scheduled"
-							label="Scheduled"
+							label="计划"
 						/>
 						<v-text-field
 							v-model="formData.wait"
-							label="Wait"
+							label="等待"
 						/>
 					</v-row>
 					<v-row class="px-3">
-						<v-checkbox v-model="recur" class="mr-3" label="Recur" />
+						<v-checkbox v-model="recur" class="mr-3" label="重复" />
 						<v-text-field
-							label="period*"
+							label="周期*"
 							v-model="formData.recur"
 							:rules="recur ? requiredRules : []"
 							:required="recur"
@@ -104,7 +104,7 @@
 					<v-radio-group v-model="formData.priority" row hide-details class="align-center">
 						<template v-slot:prepend>
 							<span class="mr-3 subtitle-1">
-								Priority
+								优先级
 							</span>
 						</template>
 						<v-radio
@@ -117,18 +117,18 @@
 
 					<v-text-field
 						v-model="formData.customCommand"
-						label="Free-form Taskwarrior Modifiers"
-						placeholder="e.g. depends:123 priority:H due:tomorrow"
-						hint="Pass direct task modifier command fragments"
+						label="Taskwarrior 原始修饰符"
+						placeholder="例：depends:123 priority:H due:tomorrow"
+						hint="直接传入 task 修饰符片段"
 						persistent-hint
 						class="mb-3"
 					/>
 					<v-list subheader dense flat>
-						<v-subheader>Annotations</v-subheader>
+						<v-subheader>注释</v-subheader>
 						<v-list-item>
 							<v-list-item-content>
 								<v-text-field
-									placeholder="Annotation text"
+									placeholder="注释内容"
 									v-model="addAnnotationDescription"
 								/>
 							</v-list-item-content>
@@ -138,7 +138,7 @@
 									fab
 									dark
 									x-small
-									title="Add annotation"
+									title="添加注释"
 									@click="addAnnotation"
 								>
 									<v-icon>mdi-plus</v-icon>
@@ -158,13 +158,13 @@
 			<v-card-actions>
 				<v-spacer />
 				<v-btn text @click="closeDialog" width="80px">
-					Cancel
+					取消
 				</v-btn>
 				<v-btn @click="reset" width="80px">
-					Reset
+					重置
 				</v-btn>
 				<v-btn color="primary" @click="submit" width="80px">
-					Submit
+					提交
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -197,7 +197,7 @@ export default defineComponent({
 		});
 
 		const requiredRules = [
-			(str: string) => Boolean(str) || 'Required'
+			(str: string) => Boolean(str) || '必填'
 		];
 
 		const addAnnotationDescription = ref('');
@@ -399,10 +399,10 @@ export default defineComponent({
 		};
 
 		const priorities = [
-			{ text: 'None', value: 'N' },
-			{ text: 'Low', value: 'L' },
-			{ text: 'Medium', value: 'M' },
-			{ text: 'High', value: 'H' }
+			{ text: '无', value: 'N' },
+			{ text: '低', value: 'L' },
+			{ text: '中', value: 'M' },
+			{ text: '高', value: 'H' }
 		];
 
 		const getTaskId = (t: any) => {

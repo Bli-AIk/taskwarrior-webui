@@ -28,7 +28,7 @@
 				mdi-sticker-check-outline
 			</v-icon>
 			<v-toolbar-title class="mr-4">
-				Taskwarrior WebUI
+				Taskwarrior 看板
 			</v-toolbar-title>
 			<v-text-field
 				id="cmdSearchBar"
@@ -39,7 +39,7 @@
 				solo-inverted
 				hide-details
 				prepend-inner-icon="mdi-magnify"
-				placeholder="Search bar (/)"
+				placeholder="搜索（/）"
 				style="max-width: 320px;"
 				class="mx-2"
 			/>
@@ -48,18 +48,18 @@
 			<v-icon
 				class="mr-4"
 				size="28px"
-				title="Command Bar (Ctrl+Shift+K)"
+				title="命令栏 (Ctrl+Shift+K)"
 				@click="triggerCommandBar"
 			>
 				mdi-console
 			</v-icon>
-			<v-icon class="mr-4" size="28px" @click="dark = !dark" title="Theme">
+			<v-icon class="mr-4" size="28px" @click="dark = !dark" title="主题">
 				{{ dark ? 'mdi-brightness-4' : 'mdi-brightness-7' }}
 			</v-icon>
 			<v-icon
 				class="mr-2"
 				size="28px"
-				title="Settings"
+				title="设置"
 				@click="settingsDialog = true"
 			>
 				mdi-cog

@@ -8,26 +8,26 @@
 		<v-card>
 			<v-card-title class="headline warning--text d-flex align-center">
 				<v-icon left color="warning">mdi-undo-variant</v-icon>
-				Confirm Task Undo
+				确认撤销
 			</v-card-title>
 			<v-card-text>
 				<p class="body-1">
-					Are you sure you want to revert the last Taskwarrior operation?
+					确定要撤销上一步 Taskwarrior 操作吗？
 				</p>
 				<v-alert v-if="loading" type="info" text dense class="my-2">
-					Loading undo operations preview...
+					正在加载撤销预览…
 				</v-alert>
 				<v-card v-else outlined class="pa-3 grey lighten-4">
-					<pre class="caption text-wrap">{{ previewText || 'No undo operation preview available.' }}</pre>
+					<pre class="caption text-wrap">{{ previewText || '没有可用的撤销预览。' }}</pre>
 				</v-card>
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer />
 				<v-btn text @click="closeDialog" width="90px">
-					Cancel
+					取消
 				</v-btn>
 				<v-btn color="warning" :loading="executing" @click="confirmUndo" width="90px">
-					Undo
+					撤销
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -59,9 +59,9 @@ export default defineComponent({
 			loading.value = true;
 			try {
 				const res: any = await (store as any).$axios.$get('/api/tasks/undo/preview');
-				previewText.value = res.report || 'The last operation will be reverted.';
+				previewText.value = res.report || '上一步操作将被撤销。';
 			} catch (e) {
-				previewText.value = 'Reverting last Taskwarrior operation.';
+				previewText.value = '正在撤销上一步操作。';
 			} finally {
 				loading.value = false;
 			}

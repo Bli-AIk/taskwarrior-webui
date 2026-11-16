@@ -8,7 +8,7 @@
 		<v-icon left small class="pulse-icon">
 			mdi-play-circle-outline
 		</v-icon>
-		<span class="font-weight-bold mr-2">[ACTIVE]</span>
+		<span class="font-weight-bold mr-2">[计时中]</span>
 		<span class="text-truncate mr-2" style="max-width: 200px;">{{ activeTask.description }}</span>
 		<v-chip x-small color="white" light class="font-weight-bold mr-2 black--text">
 			{{ elapsedTimeDisplay }}
@@ -17,7 +17,7 @@
 			icon
 			x-small
 			dark
-			title="Stop timer"
+			title="停止计时"
 			@click="stopTimer"
 		>
 			<v-icon x-small>mdi-stop</v-icon>

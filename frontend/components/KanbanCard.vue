@@ -33,14 +33,14 @@
 				<v-chip v-for="tag in task.tags" :key="tag" small color="grey darken-1" dark class="mr-1 mb-1" style="font-size: 12px;">
 					+{{ tag }}
 				</v-chip>
-				<v-chip v-if="task.depends" small color="warning" dark class="mr-1 mb-1" :title="'Blocked by: ' + formatDepends(task.depends)" style="font-size: 12px;">
-					<v-icon left small>mdi-lock-outline</v-icon>BLOCKED ({{ formatDepends(task.depends) }})
+				<v-chip v-if="task.depends" small color="warning" dark class="mr-1 mb-1" :title="'被阻塞：' + formatDepends(task.depends)" style="font-size: 12px;">
+					<v-icon left small>mdi-lock-outline</v-icon>受阻 ({{ formatDepends(task.depends) }})
 				</v-chip>
-				<v-chip v-if="getDependents(task)" small color="info" dark class="mr-1 mb-1" :title="'Blocking: ' + getDependents(task)" style="font-size: 12px;">
-					<v-icon left small>mdi-account-arrow-right-outline</v-icon>BLOCKING ({{ getDependents(task) }})
+				<v-chip v-if="getDependents(task)" small color="info" dark class="mr-1 mb-1" :title="'阻塞：' + getDependents(task)" style="font-size: 12px;">
+					<v-icon left small>mdi-account-arrow-right-outline</v-icon>阻塞中 ({{ getDependents(task) }})
 				</v-chip>
 				<v-chip v-if="task.recur" small color="info" dark class="mr-1 mb-1" style="font-size: 12px;">
-					<v-icon left small>mdi-restart</v-icon>RECUR
+					<v-icon left small>mdi-restart</v-icon>重复
 				</v-chip>
 			</div>
 		</v-card-text>
@@ -48,17 +48,17 @@
 		<v-divider />
 
 		<v-card-actions class="py-1 px-2">
-			<v-btn v-if="timewPresent" icon x-small :color="isActive ? 'warning' : 'success'" title="Start/Stop Timer" @click.stop="$emit('toggle-timer', task)">
+			<v-btn v-if="timewPresent" icon x-small :color="isActive ? 'warning' : 'success'" title="开始/停止计时" @click.stop="$emit('toggle-timer', task)">
 				<v-icon x-small>{{ isActive ? 'mdi-stop' : 'mdi-play' }}</v-icon>
 			</v-btn>
-			<v-btn icon x-small color="green" title="Complete Task" @click.stop="$emit('complete', task)">
+			<v-btn icon x-small color="green" title="完成任务" @click.stop="$emit('complete', task)">
 				<v-icon x-small>mdi-check</v-icon>
 			</v-btn>
-			<v-btn icon x-small color="primary" title="Edit Task" @click.stop="$emit('edit', task)">
+			<v-btn icon x-small color="primary" title="编辑任务" @click.stop="$emit('edit', task)">
 				<v-icon x-small>mdi-pencil</v-icon>
 			</v-btn>
 			<v-spacer />
-			<v-btn icon x-small color="red" title="Delete Task" @click.stop="$emit('delete', task)">
+			<v-btn icon x-small color="red" title="删除任务" @click.stop="$emit('delete', task)">
 				<v-icon x-small>mdi-delete</v-icon>
 			</v-btn>
 		</v-card-actions>

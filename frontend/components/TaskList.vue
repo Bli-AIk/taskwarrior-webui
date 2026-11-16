@@ -24,7 +24,7 @@
 						>
 							{{ statusIcons[st] }}
 						</v-icon>
-						{{ st }}
+						{{ statusLabels[st] || st }}
 						<v-badge
 							v-if="st === 'pending' && ((classifiedTasks[st] && classifiedTasks[st].length) || (classifiedTasks[st] && classifiedTasks[st].value && classifiedTasks[st].value.length))"
 							:content="classifiedTasks[st].length || (classifiedTasks[st].value && classifiedTasks[st].value.length)"
@@ -57,7 +57,7 @@
 							fab
 							small
 							dark
-							title="Done"
+							title="完成"
 							@click="completeTasks(selected)"
 						>
 							<v-icon>mdi-check</v-icon>
@@ -69,7 +69,7 @@
 							fab
 							dark
 							small
-							title="Restore"
+							title="恢复"
 							@click="restoreTasks(selected)"
 						>
 							<v-icon>mdi-restore</v-icon>
@@ -80,7 +80,7 @@
 							fab
 							dark
 							small
-							title="Delete"
+							title="删除"
 							@click="deleteTasks(selected)"
 						>
 							<v-icon>mdi-delete</v-icon>
@@ -95,7 +95,7 @@
 							class="green ml-1"
 							fab
 							dark
-							title="Refresh"
+							title="刷新"
 							@click="refresh"
 						>
 							<v-icon>mdi-refresh</v-icon>
@@ -106,7 +106,7 @@
 								class="green ml-1"
 								fab
 								dark
-								title="Sync Tasks"
+								title="同步任务"
 								@click="syncTasks"
 							>
 								<v-icon>mdi-sync</v-icon>
@@ -116,7 +116,7 @@
 							class="primary ml-1"
 							fab
 							dark
-							title="New task"
+							title="新建任务"
 							@click="newTask"
 						>
 							<v-icon>mdi-plus</v-icon>
@@ -126,7 +126,7 @@
 							fab
 							dark
 							small
-							title="Configure Columns"
+							title="配置列"
 							@click="showColumnDialog = true"
 						>
 							<v-icon>mdi-cogs</v-icon>
@@ -149,13 +149,13 @@
 			</template>
 
 			<template v-slot:item.depends="{ item }">
-				<v-chip v-if="item.depends" x-small color="warning" dark :title="'Blocked by: ' + item.depends">
+				<v-chip v-if="item.depends" x-small color="warning" dark :title="'被阻塞：' + item.depends">
 					<v-icon left x-small>mdi-lock-outline</v-icon>{{ formatDepends(item.depends) }}
 				</v-chip>
 			</template>
 
 			<template v-slot:item.dependents="{ item }">
-				<v-chip v-if="getDependents(item)" x-small color="info" dark :title="'Blocking: ' + getDependents(item)">
+				<v-chip v-if="getDependents(item)" x-small color="info" dark :title="'阻塞：' + getDependents(item)">
 					<v-icon left x-small>mdi-account-arrow-right-outline</v-icon>{{ getDependents(item) }}
 				</v-chip>
 			</template>
@@ -191,7 +191,7 @@
 						right
 						x-small
 						class="ml-1"
-						title="Copy tag"
+						title="复制标签"
 						@click.stop="copyTag(tag)"
 					>
 						mdi-content-copy
@@ -211,7 +211,7 @@
 					class="ml-2"
 					:color="item.start || item.uuid === activeTaskUuid ? 'warning' : 'success'"
 					@click="toggleTimer(item)"
-					:title="item.start || item.uuid === activeTaskUuid ? 'Stop Timer' : 'Start Timer'"
+					:title="item.start || item.uuid === activeTaskUuid ? '停止计时' : '开始计时'"
 				>
 					{{ item.start || item.uuid === activeTaskUuid ? 'mdi-stop' : 'mdi-play' }}
 				</v-icon>
@@ -220,7 +220,7 @@
 					size="20px"
 					class="ml-2"
 					@click="completeTasks([item])"
-					title="Done"
+					title="完成"
 				>
 					mdi-check
 				</v-icon>
@@ -229,7 +229,7 @@
 					size="20px"
 					class="ml-2"
 					@click="restoreTasks([item])"
-					title="Restore"
+					title="恢复"
 				>
 					mdi-restore
 				</v-icon>
@@ -237,7 +237,7 @@
 					class="ml-2"
 					size="20px"
 					@click="editTask(item)"
-					title="Edit"
+					title="编辑"
 				>
 					mdi-pencil
 				</v-icon>
@@ -246,7 +246,7 @@
 					class="ml-2"
 					size="20px"
 					@click="deleteTasks([item])"
-					title="Delete"
+					title="删除"
 				>
 					mdi-delete
 				</v-icon>
@@ -349,6 +349,13 @@ export default defineComponent({
 		const router = useRouter();
 
 		const allStatus = ['pending', 'waiting', 'completed', 'deleted', 'recurring'];
+		const statusLabels: { [st: string]: string } = {
+			pending: '待办',
+			waiting: '等待',
+			completed: '已完成',
+			deleted: '已删除',
+			recurring: '重复'
+		};
 		const statusIcons: { [st: string]: string } = {
 			pending: 'mdi-clock-outline',
 			waiting: 'mdi-pause',
@@ -395,26 +402,26 @@ export default defineComponent({
 		};
 
 		const headers = computed(() => [
-			{ text: 'ID', value: 'id' },
-			{ text: 'Project', value: 'project' },
-			{ text: 'Description', value: 'description' },
-			{ text: 'Priority', value: 'priority' },
-			{ text: 'Scheduled', value: 'scheduled' },
+			{ text: '编号', value: 'id' },
+			{ text: '项目', value: 'project' },
+			{ text: '描述', value: 'description' },
+			{ text: '优先级', value: 'priority' },
+			{ text: '计划', value: 'scheduled' },
 			...(selectedStatuses.value.includes('recurring')
-				? [{ text: 'Recur', value: 'recur' }]
+				? [{ text: '重复', value: 'recur' }]
 				: []),
 			...(selectedStatuses.value.length === 0 || selectedStatuses.value.some(s => s !== 'waiting')
-				? [{ text: 'Due', value: 'due' }]
+				? [{ text: '截止', value: 'due' }]
 				: []),
 			...(selectedStatuses.value.includes('waiting')
-				? [{ text: 'Wait', value: 'wait' }]
+				? [{ text: '等待', value: 'wait' }]
 				: []),
-			{ text: 'Until', value: 'until' },
-			{ text: 'Dependencies', value: 'depends' },
-			{ text: 'Dependents', value: 'dependents' },
-			{ text: 'Tags', value: 'tags' },
-			{ text: 'Urgency', value: 'urgency', sort: (a: number, b: number) => b - a },
-			{ text: 'Actions', value: 'actions', sortable: false }
+			{ text: '直至', value: 'until' },
+			{ text: '依赖', value: 'depends' },
+			{ text: '被依赖', value: 'dependents' },
+			{ text: '标签', value: 'tags' },
+			{ text: '紧急度', value: 'urgency', sort: (a: number, b: number) => b - a },
+			{ text: '操作', value: 'actions', sortable: false }
 		]);
 
 		const filteredHeaders = computed(()=>
@@ -484,7 +491,7 @@ export default defineComponent({
 
 		const showConfirmationDialog = ref(false);
 		const confirmation = reactive({
-			title: 'Confirm',
+			title: '确认',
 			text: '',
 			handler: () => {}
 		});
@@ -501,12 +508,12 @@ export default defineComponent({
 				await store.dispatch('syncTasks');
 				store.commit('setNotification', {
 					color: 'success',
-					text: 'Successfully synced tasks.'
+					text: '任务已同步。'
 				});
 			} catch (error) {
 				store.commit('setNotification', {
 					color: 'error',
-					text: 'Failed to sync tasks.'
+					text: '任务同步失败。'
 				});
 			}
 		};
@@ -542,7 +549,7 @@ export default defineComponent({
 			selected.value = selected.value.filter(task => tasksToComplete.findIndex(t => t.uuid === task.uuid) === -1);
 			store.commit('setNotification', {
 				color: 'success',
-				text: 'Successfully completed the task(s)'
+				text: '已完成所选任务'
 			});
 		};
 
@@ -555,7 +562,7 @@ export default defineComponent({
 				selected.value = selected.value.filter(task => tasksToDelete.findIndex(t => t.uuid === task.uuid) === -1);
 				store.commit('setNotification', {
 					color: 'success',
-					text: 'Successfully deleted the task(s)'
+					text: '已删除所选任务'
 				});
 			};
 			showConfirmationDialog.value = true;
@@ -575,7 +582,7 @@ export default defineComponent({
 				selected.value = selected.value.filter(task => tasksToRestore.findIndex(t => t.uuid === task.uuid) === -1);
 				store.commit('setNotification', {
 					color: 'success',
-					text: 'Successfully restored the task(s)'
+					text: '已恢复所选任务'
 				});
 			};
 			showConfirmationDialog.value = true;
@@ -597,7 +604,7 @@ export default defineComponent({
 			}
 			store.commit('setNotification', {
 				color: 'info',
-				text: `Tag "${tag}" copied to clipboard`
+				text: `标签 "${tag}" 已复制到剪贴板`
 			});
 		};
 
@@ -681,6 +688,7 @@ export default defineComponent({
 			hasNonDeletedSelected,
 			allStatus,
 			statusIcons,
+			statusLabels,
 			selected,
 			showSyncBtn,
 			syncTasks,

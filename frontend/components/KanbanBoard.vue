@@ -92,10 +92,10 @@ export default defineComponent({
 		watch([() => props.tasks, () => props.activeTaskUuid], categorizeTasks, { immediate: true });
 
 		const columns = computed(() => [
-			{ id: 'todo', title: 'To Do', color: 'blue', icon: 'mdi-clock-outline', tasks: todoTasks.value },
-			{ id: 'inProgress', title: 'In Progress', color: 'orange', icon: 'mdi-play-circle-outline', tasks: inProgressTasks.value },
-			{ id: 'waiting', title: 'Waiting', color: 'purple', icon: 'mdi-pause-circle-outline', tasks: waitingTasks.value },
-			{ id: 'done', title: 'Done', color: 'green', icon: 'mdi-check-circle-outline', tasks: doneTasks.value }
+			{ id: 'todo', title: '待办', color: 'blue', icon: 'mdi-clock-outline', tasks: todoTasks.value },
+			{ id: 'inProgress', title: '进行中', color: 'orange', icon: 'mdi-play-circle-outline', tasks: inProgressTasks.value },
+			{ id: 'waiting', title: '等待中', color: 'purple', icon: 'mdi-pause-circle-outline', tasks: waitingTasks.value },
+			{ id: 'done', title: '已完成', color: 'green', icon: 'mdi-check-circle-outline', tasks: doneTasks.value }
 		]);
 
 		const onDragChange = (evt: any, targetColumnId: string) => {

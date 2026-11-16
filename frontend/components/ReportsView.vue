@@ -4,7 +4,7 @@
 			<v-col cols="12">
 				<h2 class="headline font-weight-bold d-flex align-center">
 					<v-icon left color="primary">mdi-chart-bell-curve-cumulative</v-icon>
-					Project Progress & Analytics Reports
+					项目进度与统计
 				</h2>
 			</v-col>
 		</v-row>
@@ -33,7 +33,7 @@
 							<span class="caption font-weight-bold">{{ proj.progress }}%</span>
 						</v-progress-circular>
 						<div class="mt-2 caption text--secondary">
-							<span>{{ proj.completed }} completed</span> / <span>{{ proj.total }} total</span>
+							<span>{{ proj.completed }} 已完成</span> / <span>共 {{ proj.total }}</span>
 						</div>
 					</v-card-text>
 				</v-card>

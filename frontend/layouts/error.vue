@@ -7,7 +7,7 @@
 			{{ error.message }}
 		</div>
 		<NuxtLink to="/">
-			Home page
+			返回首页
 		</NuxtLink>
 	</v-app>
 </template>
@@ -19,8 +19,8 @@ import { NuxtError } from '@nuxt/types';
 export default defineComponent({
 	data () {
 		return {
-			pageNotFound: '404 Not Found',
-			otherError: 'An error occurred'
+			pageNotFound: '404 页面不存在',
+			otherError: '出错了'
 		};
 	},
 

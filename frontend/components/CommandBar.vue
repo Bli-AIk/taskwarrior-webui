@@ -6,7 +6,7 @@
 					ref="inputRef"
 					v-model="command"
 					prepend-inner-icon="mdi-console"
-					placeholder="Enter task or timew command... (e.g., add Buy milk +groceries)"
+					placeholder="输入 task 或 timew 命令…（例：add 买牛奶 +groceries）"
 					hide-details
 					solo
 					flat
