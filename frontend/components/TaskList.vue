@@ -40,6 +40,13 @@
 		<v-data-table
 			:items="displayedTasks"
 			:headers="filteredHeaders"
+			:footer-props="{
+				itemsPerPageText: '每页行数：',
+				itemsPerPageAllText: '全部',
+				pageText: '{0}-{1} 共 {2}',
+				nextPageLabel: '下一页',
+				prevPageLabel: '上一页'
+			}"
 			show-select
 			item-key="uuid"
 			:item-class="rowClass"
